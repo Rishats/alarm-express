@@ -52,15 +52,15 @@ app.listen(8000, function () {
 
 // COM data
 
-var port = new SerialPort('/dev/ttyACM0', {
-    baudRate: 9600
+var port = new SerialPort('/dev/ttyACM1', {
+    baudRate: 115200
 });
 
 port.on('readable', function () {
 
     //console.log(port.read().toString().match(/\d{2}/));
-    var rezultat = port.read().toString().match(/\d{2}/);
-    console.log(rezultat[0]);
+    var rezultat = port.read().toString().match(/(^\d{1,2})\D+(\d{1,4})/);
+    console.log(rezultat);
 
 });
 
