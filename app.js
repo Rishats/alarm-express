@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var SerialPort = require('serialport');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -48,3 +49,26 @@ module.exports = app;
 app.listen(8000, function () {
     console.log('App listening on port 8000!')
 })
+
+// COM data
+
+var port = new SerialPort('/dev/ttyACM0', {
+    baudRate: 9600
+});
+
+port.on('readable', function () {
+
+    //console.log(port.read().toString().match(/\d{2}/));
+    var rezultat = port.read().toString().match(/\d{2}/);
+    console.log(rezultat[0]);
+
+});
+
+
+
+// Open errors will be emitted as an error event
+port.on('error', function(err) {
+    console.log('Error: ', err.message);
+})
+
+
