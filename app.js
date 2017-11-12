@@ -1,3 +1,4 @@
+// Includs
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var SerialPort = require('serialport');
+var CONFIG = require('./config.json');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -54,7 +56,7 @@ app.listen(8000, function () {
 
 // Temperature
 
-var port_36gz = new SerialPort('/dev/ttyUSB0', {
+var port_36gz = new SerialPort(CONFIG['36gzPort'], {
     baudRate: 115200
 });
 
@@ -72,7 +74,7 @@ port_36gz.on('error', function(err) {
 })
 // CO
 
-var port_mq4 = new SerialPort('/dev/ttyACM0', {
+var port_mq4 = new SerialPort(CONFIG['mq4Port'], {
     baudRate: 115200
 });
 

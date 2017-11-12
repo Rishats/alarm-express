@@ -1,0 +1,9 @@
+{
+    "dbPort": 3306,
+    "dbHost": "localhost",
+    "dbName": "alarm",
+    "dbUser": "r",
+    "dbPassword": "r",
+    "36gzPort": "/dev/ttyUSB0",
+    "mq4Port": "/dev/ttyACM0"
+}
