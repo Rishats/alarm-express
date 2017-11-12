@@ -50,16 +50,35 @@ app.listen(8000, function () {
     console.log('App listening on port 8000!')
 })
 
-// COM data
+// COM data.
 
-var port = new SerialPort('/dev/ttyACM1', {
+// Temperature
+
+var port_36gz = new SerialPort('/dev/ttyUSB0', {
     baudRate: 115200
 });
 
-port.on('readable', function () {
+port_36gz.on('readable', function () {
 
-    //console.log(port.read().toString().match(/\d{2}/));
-    var rezultat = port.read().toString().match(/(^\d{1,2})\D+(\d{1,4})/);
+    var rezultat = port_36gz.read().toString()
+    console.log(rezultat);
+
+});
+
+
+// Open errors will be emitted as an error event
+port_36gz.on('error', function(err) {
+    console.log('Error: ', err.message);
+})
+// CO
+
+var port_mq4 = new SerialPort('/dev/ttyACM0', {
+    baudRate: 115200
+});
+
+port_mq4.on('readable', function () {
+
+    var rezultat = port_mq4.read().toString()
     console.log(rezultat);
 
 });
@@ -67,7 +86,7 @@ port.on('readable', function () {
 
 
 // Open errors will be emitted as an error event
-port.on('error', function(err) {
+port_mq4.on('error', function(err) {
     console.log('Error: ', err.message);
 })
 
