@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var SerialPort = require('serialport');
 var CONFIG = require('./config.json');
 var mysql = require('mysql');
+var moment = require('moment');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -72,9 +73,9 @@ mysql_conntection.connect(function(err) {
 
 function saveM4qData(data) // Function save MQ4 data in to mysql.
 {
-    var sql = "INSERT INTO co (co) VALUES ?";
+    var sql = "INSERT INTO co (co,created_at, updated_at) VALUES ?";
     var values = [
-        [data]
+        [data, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), moment(new Date()).format("YYYY-MM-DD HH:mm:ss")]
     ];
     mysql_conntection.query(sql, [values], function (err) {
         if (err) throw err;
@@ -83,9 +84,9 @@ function saveM4qData(data) // Function save MQ4 data in to mysql.
 
 function save36qzData(data) // Function save 36qz data in to mysql.
 {
-    var sql = "INSERT INTO temperature (temperature) VALUES ?";
+    var sql = "INSERT INTO temperature (temperature, created_at, updated_at) VALUES ?";
     var values = [
-        [data]
+        [data, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), moment(new Date()).format("YYYY-MM-DD HH:mm:ss")]
     ];
     mysql_conntection.query(sql, [values], function (err) {
         if (err) throw err;
