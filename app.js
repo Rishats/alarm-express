@@ -105,7 +105,14 @@ port_36gz.on('readable', function () {
 
     var rezultat = port_36gz.read().toString()
     console.log(rezultat);
-    save36qzData(rezultat);
+    rezultat = parseInt(rezultat);
+    if(typeof(rezultat) != "undefined" && !isNaN(rezultat)){
+      save36qzData(parseInt(rezultat));
+      console.log('good-36qz')
+    }
+    else{
+      console.log('bad int 36QZ');
+    }
 
 });
 
@@ -125,7 +132,14 @@ port_mq4.on('readable', function () {
 
     var rezultat = port_mq4.read().toString()
     console.log(rezultat);
-    saveM4qData(rezultat);
+    rezultat = parseInt(rezultat);
+    if(typeof(rezultat) != "undefined" && !isNaN(rezultat)){
+      saveM4qData(parseInt(rezultat));
+      console.log('good-mq4')
+    }
+    else{
+      console.log('bad int MQ4');
+    }
 
 });
 
