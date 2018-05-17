@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var SerialPort = require('serialport');
 var CONFIG = require('./config.json');
+var mysql = require('mysql');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -48,9 +49,48 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-app.listen(8000, function () {
+app.listen(8004, function () {
     console.log('App listening on port 8000!')
 })
+
+// MySQL connect
+
+var mysql_conntection = mysql.createConnection({
+  host: CONFIG['dbHost'],
+  user: CONFIG['dbUser'],
+  database: CONFIG['dbName'],
+  password: CONFIG['dbPassword']
+});
+
+// Open connection MySQL
+mysql_conntection.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL!");
+})
+
+// Save data into MYSQL
+
+function saveM4qData(data) // Function save MQ4 data in to mysql.
+{
+    var sql = "INSERT INTO co (co) VALUES ?";
+    var values = [
+        [data]
+    ];
+    mysql_conntection.query(sql, [values], function (err) {
+        if (err) throw err;
+    });
+};
+
+function save36qzData(data) // Function save 36qz data in to mysql.
+{
+    var sql = "INSERT INTO temperature (temperature) VALUES ?";
+    var values = [
+        [data]
+    ];
+    mysql_conntection.query(sql, [values], function (err) {
+        if (err) throw err;
+    });
+};
 
 // COM data.
 
@@ -64,6 +104,7 @@ port_36gz.on('readable', function () {
 
     var rezultat = port_36gz.read().toString()
     console.log(rezultat);
+    save36qzData(rezultat);
 
 });
 
@@ -72,6 +113,7 @@ port_36gz.on('readable', function () {
 port_36gz.on('error', function(err) {
     console.log('Error: ', err.message);
 })
+
 // CO
 
 var port_mq4 = new SerialPort(CONFIG['mq4Port'], {
@@ -82,14 +124,11 @@ port_mq4.on('readable', function () {
 
     var rezultat = port_mq4.read().toString()
     console.log(rezultat);
+    saveM4qData(rezultat);
 
 });
-
-
 
 // Open errors will be emitted as an error event
 port_mq4.on('error', function(err) {
     console.log('Error: ', err.message);
 })
-
-
