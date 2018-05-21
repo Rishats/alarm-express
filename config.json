@@ -1,9 +1,9 @@
 {
     "dbPort": 3306,
-    "dbHost": "192.168.10.10",
-    "dbName": "alarm.test",
-    "dbUser": "homestead",
-    "dbPassword": "secret",
+    "dbHost": "127.0.0.1",
+    "dbName": "alarm",
+    "dbUser": "root",
+    "dbPassword": "root",
     "36gzPort": "/dev/ttyUSB0",
     "mq4Port": "/dev/ttyACM0"
 }
